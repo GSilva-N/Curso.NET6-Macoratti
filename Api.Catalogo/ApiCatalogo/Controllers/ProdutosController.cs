@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiCatalogo.Controllers;
 
-[Route("/[controller]")]
+[Route("[controller]")]
 [ApiController]
 public class ProdutosController : ControllerBase
 {
@@ -19,12 +19,21 @@ public class ProdutosController : ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<Produto>> GetAll()
     {
-        var produtos = _context.Produtos?.ToList();
+        try
+        {
+            var produtos = _context.Produtos?.ToList();
 
-        if (produtos == null)
-            return NotFound();
+            if (produtos == null)
+                return NotFound();
 
-        return Ok(produtos);
+            return Ok(produtos);
+        }
+        catch (Exception ex)
+        {
+
+            throw ex;
+        }
+        
     }
 
     [HttpGet("{id:int}", Name = "ObterProduto")]
@@ -73,7 +82,7 @@ public class ProdutosController : ControllerBase
         return Ok(produto);
     }
 
-    [HttpDelete("{id}:int")]
+    [HttpDelete("{id:int}")]
     public ActionResult Delete(int id) 
     {
         var produto = _context.Produtos?.FirstOrDefault(p => p.ProdutoId.Equals(id));

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace ApiCatalogo.Domain;
 
@@ -19,6 +20,7 @@ public class Produto
     [Required]
     [Column(TypeName ="decimal(10,2")]
     public decimal PrecoProduto { get; set; }
+
     [Required]
     [StringLength(300)]
     public string? ImagemProduto { get; set; }
@@ -29,6 +31,7 @@ public class Produto
 
     public int CategoriaId { get; set; }
 
+    [JsonIgnore]
     public Categoria? Categoria { get; set; }
 }
 
